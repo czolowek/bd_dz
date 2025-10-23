@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Школьная БД</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;margin:20px}
+    input,select{padding:6px;margin:4px}
+    table{border-collapse:collapse;margin-top:12px}
+    th,td{border:1px solid #666;padding:6px}
+    form.section{margin-bottom:18px;padding:8px;border:1px solid #ddd}
+  </style>
+</head>
+<body>
+  <h1>Школьная БД</h1>
+
+  <form class="section" action="/add_person" method="post">
+    <b>Добавить человека</b><br>
+    <input name="first_name" placeholder="Имя" required>
+    <input name="last_name" placeholder="Фамилия" required>
+    <br>
+    <label>Школа:
+      <select name="school_number">
+        <option value="">--</option>
+        {% for s in schools %}
+          <option value="{{ s[0] }}">{{ s[0] }} — {{ s[1] }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label>Класс:
+      <select name="class_number">
+        <option value="">--</option>
+        {% for c in classes %}
+          <option value="{{ c[0] }}">{{ c[0] }} — {{ c[2] }} (шк {{ c[1] }})</option>
+        {% endfor %}
+      </select>
+    </label>
+    <br>
+    <input name="address" placeholder="Адрес">
+    <button type="submit">Добавить</button>
+  </form>
+
+  <h2>Список людей</h2>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Имя</th><th>Фамилия</th><th>Школа (номер)</th><th>Класс (id)</th><th>Адрес</th></tr>
+    </thead>
+    <tbody>
+      {% for p in people %}
+      <tr>
+        <td>{{ p[0] }}</td>
+        <td>{{ p[1] }}</td>
+        <td>{{ p[2] }}</td>
+        <td>{{ p[3] or "" }}</td>
+        <td>{{ p[4] or "" }}</td>
+        <td>{{ p[5] or "" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Школы</h2>
+  <table>
+    <thead><tr><th>Номер</th><th>Название</th><th>Адрес</th></tr></thead>
+    <tbody>
+      {% for s in schools %}
+      <tr><td>{{ s[0] }}</td><td>{{ s[1] }}</td><td>{{ s[2] }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Классы</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Школа</th><th>Название</th><th>Расположение</th></tr></thead>
+    <tbody>
+      {% for c in classes %}
+      <tr><td>{{ c[0] }}</td><td>{{ c[1] }}</td><td>{{ c[2] }}</td><td>{{ c[3] or "" }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
