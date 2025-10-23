@@ -42,7 +42,7 @@ def init_db() -> None:
     );
     """)
 
-    # вставляем примерные записи, если их нет
+
     cur.execute("SELECT 1 FROM school WHERE school_number = 12;")
     if cur.fetchone() is None:
         cur.execute(
@@ -50,7 +50,7 @@ def init_db() -> None:
             (12, "Лицей №12", "ул. Школьная, 5")
         )
 
-    # добавляем класс, только если нет
+
     cur.execute("SELECT 1 FROM class WHERE school_number = ? AND class_name = ?;", (12, "10-А"))
     if cur.fetchone() is None:
         cur.execute(
@@ -64,7 +64,7 @@ def init_db() -> None:
 def add_person(first_name: str, last_name: str, school_number: Optional[int], class_number: Optional[int], address: Optional[str]) -> None:
     conn = _connect()
     cur = conn.cursor()
-    # приводим к int или None
+
     try:
         sn = int(school_number) if school_number not in (None, "", "None") else None
     except Exception:
